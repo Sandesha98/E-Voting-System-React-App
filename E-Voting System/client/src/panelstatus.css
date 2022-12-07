@@ -1,0 +1,20 @@
+.pan-stat{
+    display:list-item;
+    justify-content: space-around;
+    flex-direction: row-reverse;
+    padding-left: 1%;
+    max-width: 1000px;
+    background-color: white;
+    box-shadow: 0 0 40px rgba(0,0,0,0.16);
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 150px;
+    border-radius: 8px;
+    
+  }
+  .div-feed{
+    display: flex;
+    column-gap: 10px;
+    flex-direction: row-reverse;
+    padding: 2%;
+  }

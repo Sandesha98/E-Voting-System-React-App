@@ -1,0 +1,8 @@
+.request{
+    margin: 120px 60px 0px 60px;
+}
+.reqbody{
+    border: 2px solid gray;
+    border-radius: 5px;
+    margin: 10px;
+}
