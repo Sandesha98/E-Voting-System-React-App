@@ -110,6 +110,22 @@ app.get("/getId",(req,res)=>{
         res.send(result);
     })
 });
+app.get("/fetchData/:id",(req,res)=>{
+    db.query(`SELECT * FROM student where cms_id = '${req.params.id}'`,(err,result)=>{
+        res.send(result);
+    })
+});
+
+app.get("/getStudents/:id",(req,res)=>{
+    const cms = req.params.id;
+    db.query(`Select candidates.panel_id, student.cms_id, student.name, student.fatherName,student.email,student.department,
+    student.semester,student.cgpa,student.contact_num, candidates.post_id, candidates.candidate_id, candidates.picture, posts.postName 
+    from student join candidates on student.cms_id = candidates.cms_id join posts on 
+    candidates.post_id = posts.post_id join paneldetails on candidates.panel_id =paneldetails.submittedBy 
+    where paneldetails.Status = 'Pending' AND paneldetails.submittedBy ='${cms}'`,(err,result)=>{
+       res.send(result);
+    });    
+});
 app.post("/submitFeedback",(req,res)=>{
     const fb = req.body.feedback;
     console.log(fb);
@@ -136,6 +152,21 @@ app.post("/insert", upload.array("myImage",10), (req,res)=>{
 }
 })
 
+//edit functionality
+app.post("/update", upload.array("myImage",10), (req,res)=>{
+    const obj = JSON.parse(req.body.dataa); 
+    const filename = req.files;  
+    console.log(filename);  
+ for(let i=0;i<obj.length;i++)
+ {
+    
+    db.query("Replace into candidates SET ?",{candidate_id: obj[i].candidate_id, cms_id:obj[i].cms_id, picture: filename[i].filename, post_id:obj[i].post_id , panel_id:obj[i].panel_id},
+     (err,result)=>{
+       console.log(err);
+       
+    })   
+}
+})
 app.post("/giveDetails", upload.single("myImage"), (req,res)=>{
     const name = JSON.parse(req.body.name); 
     const {filename} = req.file;  

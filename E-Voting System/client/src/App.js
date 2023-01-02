@@ -12,6 +12,7 @@ import {Routes, Route} from 'react-router-dom';
 import PanelRequest from './panelrequest';
 import ViewPanelDetails from './viewpaneldetails';
 import AllPanelDetails from './allPanelDetails';
+import EditScreen from './EditScreen';
 function App() {
   return (
     <>
@@ -25,7 +26,7 @@ function App() {
       <Route path='panel-request' element={<PanelRequest/>}/>
       <Route path='/panel-request/allPanelDetails' element={<AllPanelDetails/>}/>
       <Route path='homepage/panel-status/allPanelDetails' element={<AllPanelDetails/>}/>
-      <Route path='homepage/panel-status/register-panel' element={<RegisterPanel/>}/>
+      <Route path='homepage/panel-status/edit-screen' element={<EditScreen/>}/>
     </Routes>
         </>
   );

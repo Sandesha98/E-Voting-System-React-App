@@ -26,7 +26,7 @@ function PanelStatus(){
        
         <h6>Feedback: {(statuss.feedback) ? statuss.feedback : 'NA'}</h6>
         <div className='div-feed'>
-        {(statuss.Status !== 'Approved') ? <Button variant="primary" onClick={()=>navigate('register-panel')}>Edit</Button> : false}
+        {(statuss.Status !== 'Approved') ? <Button variant="primary" onClick={()=>navigate('edit-screen', {state:{cms: location.state.cms_id}})}>Edit</Button> : false}
         <Button variant="primary" onClick={handleClick}>View</Button>
         </div>
         </div>
