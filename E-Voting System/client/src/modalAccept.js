@@ -1,21 +1,15 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {useNavigate} from 'react-router-dom';
 import Axios from 'axios';
-function RejectPanel(props) {
+import { useNavigate } from 'react-router-dom';
+function ModalAccept(props) {
     const navigate= useNavigate();
-    const handleClick = ()=>{
-      if(props.post=='DC')
-      {
-        Axios.post("http://localhost:3001/rejectedByDC")
-      }
-      if(props.post=='CDC')
-      {
-        Axios.post("http://localhost:3001/rejectedByCDC")
-      }
-      props.onHide();
-      navigate(-1);
-    }
+    const handleClick=()=>{
+        // e.preventDefault();
+         Axios.post("http://localhost:3001/AcceptedByDC");
+         props.onHide();
+         navigate(-1);
+          }
     return (
     <>
    
@@ -27,12 +21,12 @@ function RejectPanel(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-         Panel is rejected because it does not meet right criteria!
+         Accepted by Discipline Committee
         </Modal.Title>
       </Modal.Header>
       
       <Modal.Footer>
-       <Button onClick={handleClick}>Ok</Button>
+      <Button onClick={handleClick}>OK</Button>
       </Modal.Footer>
       
     </Modal>
@@ -40,4 +34,4 @@ function RejectPanel(props) {
     </>
   );
 }
-export default RejectPanel;
+export default ModalAccept;

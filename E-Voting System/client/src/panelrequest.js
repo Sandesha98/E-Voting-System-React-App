@@ -8,12 +8,22 @@ import {useNavigate, useLocation} from 'react-router-dom';
 import Axios from 'axios';
 function Rejected(){
   const [panelData, setPanelData] = useState([]);
-  
+  const location = useLocation();  
   useEffect(()=> {
-    Axios.get("http://localhost:3001/getRejectedPanels").then((res)=>{
-      console.log(res.data);
-      setPanelData(res.data);
-        });      
+    if(location.state.post=='DC')
+    {
+      Axios.get("http://localhost:3001/getDCRejectedPanels").then((res)=>{
+        console.log(res.data);
+        setPanelData(res.data);
+          });
+    }
+    if(location.state.post=='CDC')
+    {
+      Axios.get("http://localhost:3001/getCDCRejectedPanels").then((res)=>{
+        console.log(res.data);
+        setPanelData(res.data);
+          });
+    }
   }, []);
   return (
     <>
@@ -30,11 +40,22 @@ function Rejected(){
 }
 function Approved(){
   const [panelData, setPanelData] = useState([]);
+  const location = useLocation(); 
   useEffect(()=> {
-    Axios.get("http://localhost:3001/getApprovedPanels").then((res)=>{
+    if(location.state.post=='DC')
+    {
+      Axios.get("http://localhost:3001/getDCApprovedPanels").then((res)=>{
       console.log(res.data);
       setPanelData(res.data);
-        });      
+        });   
+    }
+    if(location.state.post=='CDC')
+    {
+      Axios.get("http://localhost:3001/getCDCApprovedPanels").then((res)=>{
+      console.log(res.data);
+      setPanelData(res.data);
+        });   
+    }     
   }, []);
   return (
     <>
@@ -54,15 +75,27 @@ function Pending(){
  const location = useLocation(); 
  const [panelData, setPanelData] = useState([]);
   useEffect(()=> {
-    Axios.get("http://localhost:3001/getPendingPanels").then((res)=>{
+    if(location.state.post=='DC')
+    {
+      Axios.get("http://localhost:3001/getPendingPanels").then((res)=>{
       console.log(res.data);
       setPanelData(res.data);
-        });      
+        });
+    }
+    if(location.state.post=='CDC')
+    {
+      Axios.get("http://localhost:3001/getDCApprovedPanels").then((res)=>{
+      console.log(res.data);
+      setPanelData(res.data);
+        });
+    }
+    
+          
   }, []);
  const handleClick=(x)=>{
   console.log(x);
   Axios.post('http://localhost:3001/sendId', {panelId: x});
-  navigate('allPanelDetails', {state: {isAdmin: location.state.isAdmin}});
+  navigate('allPanelDetails', {state: {isAdmin: location.state.isAdmin, post: location.state.post}});
  }
   return (
     <>

@@ -17,13 +17,14 @@ function LoginScreen(){
    const [adminLogin, setAdminLogin] = useState(false);
    const [sem, setSem]= useState();
    const [isAdmin, setIsAdmin] = useState(false);
+   const [post, setPost] = useState('');
   useEffect(()=>{
      Axios.get(`http://localhost:3001/getCredentials/${entry.cms_id}`).then((res)=>{
       console.log(res.data);
       setUser(res.data)
     });
     Axios.get(`http://localhost:3001/getAdminCredentials/${entry.cms_id}`).then((res)=>{
-      //console.log(res.data);
+      console.log(res.data);
       setAdmin(res.data)
     });
   },[entry.cms_id]);
@@ -75,7 +76,7 @@ function LoginScreen(){
          
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button"  onClick={(adminLogin) ? navigate('panel-request', {state:{isAdmin: isAdmin}}) : ((userLogin) ? navigate('homepage',{state:{sem:sem, cms_id: entry.cms_id}}) : false)} >
+            <Button type="primary" htmlType="submit" className="login-form-button"  onClick={(adminLogin) ? navigate('panel-request', {state:{isAdmin: isAdmin, post: post}}) : ((userLogin) ? navigate('homepage',{state:{sem:sem, cms_id: entry.cms_id}}) : false)} >
               LOGIN
               
             </Button>
@@ -96,6 +97,7 @@ function LoginScreen(){
               if(entry.cms_id === val.Employee_id && entry.password === val.Password){
                 setAdminLogin(true);
                 setIsAdmin(true);
+                setPost(val.Post);
               }
       })}
     </>

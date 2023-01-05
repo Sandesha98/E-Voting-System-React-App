@@ -9,6 +9,7 @@ import Axios from 'axios';
 import ModalFeedback from './modalFeedback';
 import GiveInfo from './GiveInfo';
 import RejectPanel from './RejectPanel';
+import ModalAccept from './modalAccept';
 function AllPanelDetails(){ 
  const navigate = useNavigate();
  const location = useLocation();
@@ -16,6 +17,7 @@ function AllPanelDetails(){
   const [modalDetails, setModalDetails] = React.useState(false);
   const [modalShow, setModalShow] = React.useState(false);
   const [reject, setReject] = React.useState(false);
+  const [accept, setAccept] = React.useState(false);
   const [idd,setId] = useState('');
   useEffect(()=> {
     Axios.get("http://localhost:3001/getAllPanels").then((res)=>{
@@ -23,7 +25,16 @@ function AllPanelDetails(){
      setAllPanelData(res.data);
         });      
   }, []);
-
+  const handleAccept=()=>{
+    if(location.state.post=='DC')
+    {
+      setAccept(true);
+    }
+    if(location.state.post=='CDC')
+    {
+      setModalDetails(true);
+    }
+  }
   return (
     <>
     {allPanelData.map((p) => 
@@ -52,10 +63,10 @@ function AllPanelDetails(){
       <Button variant="light" onClick={() => setModalShow(true)}>
         Improve
       </Button>&nbsp;&nbsp;
-      <Button variant="light" onClick={() => setModalDetails(true)}>
+       <Button variant="light" onClick={handleAccept}>
         Accept
       </Button>
-      </div> : false}
+      </div> :  false}
     
       <ModalFeedback
         show={modalShow}
@@ -63,12 +74,16 @@ function AllPanelDetails(){
       />
       <GiveInfo
         show={modalDetails}
-
         onHide={() => setModalDetails(false) } 
       />
       <RejectPanel
         show={reject}
+        post={location.state.post}
         onHide={() => setReject(false) } 
+      />
+      <ModalAccept
+        show={accept}
+        onHide={() => setAccept(false) } 
       />
     </>
   )

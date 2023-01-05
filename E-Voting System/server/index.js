@@ -67,19 +67,35 @@ app.get("/getPendingPanels",(req,res)=>{
        res.send(result);
     })    
 });
+app.get("/getDCApprovedPanels",(req,res)=>{
+    db.query("Select panel_id, submittedBy from paneldetails where Status='ApprovedByDC'",(err,result)=>{
+       res.send(result);
+    })    
+});
 app.get("/getApprovedPanels",(req,res)=>{
     db.query("Select panel_id, submittedBy from paneldetails where Status='Approved'",(err,result)=>{
        res.send(result);
     })    
 });
-app.get("/getStatus/:id",(req,res)=>{
-    const cms = req.params.id;
-    db.query(`Select feedback, Status FROM paneldetails where submittedBy='${cms}'`,(err,result)=>{
+app.get("/getCDCApprovedPanels",(req,res)=>{
+    db.query("Select panel_id, submittedBy from paneldetails where Status='Approved'",(err,result)=>{
        res.send(result);
     })    
 });
-app.get("/getRejectedPanels",(req,res)=>{
-    db.query("Select panel_id, submittedBy from paneldetails where Status='Rejected'",(err,result)=>{
+
+app.get("/getStatus/:id",(req,res)=>{
+    const cms = req.params.id;
+    db.query(`Select feedback, Status, panelName FROM paneldetails where submittedBy='${cms}'`,(err,result)=>{
+       res.send(result);
+    })    
+});
+app.get("/getDCRejectedPanels",(req,res)=>{
+    db.query("Select panel_id, submittedBy from paneldetails where Status='RejectedByDC'",(err,result)=>{
+       res.send(result);
+    })    
+});
+app.get("/getCDCRejectedPanels",(req,res)=>{
+    db.query("Select panel_id, submittedBy from paneldetails where Status='RejectedByCDC'",(err,result)=>{
        res.send(result);
     })    
 });
@@ -170,12 +186,22 @@ app.post("/update", upload.array("myImage",10), (req,res)=>{
 app.post("/giveDetails", upload.single("myImage"), (req,res)=>{
     const name = JSON.parse(req.body.name); 
     const {filename} = req.file;  
-    db.query(`Update panelDetails SET panelName='${name}', symbol='${filename}', Status='Approved' where submittedBy = '${x}'`,(err,result)=>{
+    db.query(`Update panelDetails SET panelName='${name}', symbol='${filename}', ApprovedBy='CDC', Status='Approved', feedback='' where submittedBy = '${x}'`,(err,result)=>{
         console.log(err);
     })  
 });
-app.post("/reject", (req,res)=>{
-    db.query(`Update panelDetails SET Status='Rejected' where submittedBy='${x}'`,(err,result)=>{
+app.post("/AcceptedByDC", (req,res)=>{
+    db.query(`Update panelDetails SET ApprovedBy='DC', Status='ApprovedByDC', feedback='' where submittedBy = '${x}'`,(err,result)=>{
+        console.log(err);
+    })  
+});
+app.post("/rejectedByDC", (req,res)=>{
+    db.query(`Update panelDetails SET Status='RejectedByDC', feedback='' where submittedBy='${x}'`,(err,result)=>{
+        console.log(err);
+    })  
+});
+app.post("/rejectedByCDC", (req,res)=>{
+    db.query(`Update panelDetails SET Status='RejectedByCDC',feedback='' where submittedBy='${x}'`,(err,result)=>{
         console.log(err);
     })  
 });

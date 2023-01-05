@@ -23,11 +23,17 @@ function PanelStatus(){
         <>
         <div className="pan-stat" >
         <h3>Panel Status : {statuss.Status}</h3>
-       
-        <h6>Feedback: {(statuss.feedback) ? statuss.feedback : 'NA'}</h6>
+          {(statuss.Status=='Approved') ?
+          <h5>Congratulations! Your panel is accepted and its name is {statuss.panelName}</h5>
+          :<><h6>Feedback: {(statuss.feedback) ? statuss.feedback : 'NA'}</h6></> }
+    
         <div className='div-feed'>
-        {(statuss.Status !== 'Approved') ? <Button variant="primary" onClick={()=>navigate('edit-screen', {state:{cms: location.state.cms_id}})}>Edit</Button> : false}
+        {(statuss.Status == 'Pending') || (statuss.feedback!='') ? 
+        <Button variant="primary" onClick={()=>navigate('edit-screen', 
+        {state:{cms: location.state.cms_id}})}>Edit</Button> : false}
         <Button variant="primary" onClick={handleClick}>View</Button>
+        </div>
+        <div>
         </div>
         </div>
         </>
