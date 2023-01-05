@@ -50,10 +50,9 @@ app.get("/getCredentials/:id",(req,res)=>{
 app.get("/getExistRecord/:id",(req,res)=>{    
     const idd = req.params.id;
     
-     //console.log(idd);
     db.query(`Select Exists(SELECT * FROM paneldetails where submittedBy='${idd}') as result`,(err,result)=>{
        res.send(result);
-       //console.log(result)
+   
     })    
 });
 app.get("/getAdminCredentials/:id",(req,res)=>{
@@ -107,7 +106,7 @@ app.get("/getAllPanels",(req,res)=>{
     db.query("SELECT candidates.cms_id, paneldetails.submittedBy, student.name,student.fatherName,student.email,student.department,student.semester,student.cgpa,student.contact_num,candidates.picture, posts.postName FROM paneldetails join candidates on paneldetails.submittedBy=candidates.panel_id join student on candidates.cms_id = student.cms_id join posts on candidates.post_id = posts.post_id where candidates.panel_id = ?",x,(err,result)=>{
         res.send(result);
         
-        // console.log(result);
+       
     })
 })
 app.get("/getPosts",(req,res)=>{
