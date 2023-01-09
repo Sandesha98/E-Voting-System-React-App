@@ -11,6 +11,9 @@
     border-radius: 8px;
   }
   
+.card{
+  margin-top: 100px;
+}
   body {
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

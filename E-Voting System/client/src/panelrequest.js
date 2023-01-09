@@ -122,16 +122,16 @@ function PanelRequest() {
       <Card.Header>
         <Nav variant="tabs" defaultActiveKey="#pending">
           <Nav.Item>
-            <Nav.Link href="#pending" onClick={()=>{setpend(true);setRej(false);setAppr(false);}}>Pending</Nav.Link>
+            <Nav.Link className='link-hover' onClick={()=>{setpend(true);setRej(false);setAppr(false);}}>Pending</Nav.Link>
             <Nav.Item>
               
             </Nav.Item>
            </Nav.Item>
           <Nav.Item>
-            <Nav.Link href="#approved" onClick={()=>{setAppr(true);setpend(false);setRej(false)}}>Approved</Nav.Link>
+            <Nav.Link  onClick={()=>{setAppr(true);setpend(false);setRej(false)}}>Approved</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link href="#rejected" onClick={()=>{setRej(true);setAppr(false);setpend(false);}}>
+            <Nav.Link  onClick={()=>{setRej(true);setAppr(false);setpend(false);}}>
               Rejected
             </Nav.Link>
           </Nav.Item>

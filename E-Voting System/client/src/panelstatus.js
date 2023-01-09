@@ -12,6 +12,7 @@ function PanelStatus(){
           setStatus(res.data[0])
           console.log(res.data);
         });
+      // console.log(location.state.cms_id);
       },[]);
       const handleClick=(x)=>{
         console.log(x);
@@ -21,9 +22,13 @@ function PanelStatus(){
     return(
         <>
         <div className="pan-stat" >
-        <h3>Panel Status : {statuss.Status}</h3>
-          {(statuss.Status=='Approved') ?
-          <h6>Congratulations! Your panel is accepted and its name is {statuss.panelName}</h6>
+        <center> <h3>{statuss.Status}</h3></center>
+          {(statuss.Status=='Approved') ?<>
+          <center>   <h5>Congratulations! Your panel is approved.</h5></center>
+          <h5>Panel Name: {statuss.panelName}</h5>
+          <h5>Panel Symbol:</h5>
+           <img src={`/uploads/${statuss.symbol}`} alt='panel symbol'></img>
+          </>
           :<><h6>Feedback: {(statuss.feedback) ? statuss.feedback : 'NA'}</h6></> }
     
         <div className='div-feed'>

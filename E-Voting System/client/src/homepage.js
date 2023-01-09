@@ -13,11 +13,17 @@ function HomePage() {
   const navigate= useNavigate();
   const location = useLocation();
   const [idd , setId] = useState(0);
+  const [registrationChecked, setRegistrationChecked] = useState(false);
+  const [votingChecked, setVotingChecked] = useState(false);
   useEffect(()=>{
     Axios.get(`http://localhost:3001/getExistRecord/${location.state.cms_id}`).then((res)=>{
-     console.log(res.data[0].result);
+     //console.log(res.data[0].result);
     setId(res.data[0].result)
    });
+   Axios.get(`http://localhost:3001/manageElectionData`).then((res)=>{
+    setRegistrationChecked((res.data[0]).startRegistration);
+    setVotingChecked((res.data[0]).startVoting);
+  });
  },[]);
   return (
     <Container>
@@ -28,7 +34,7 @@ function HomePage() {
       <Card.Title>Register Panel</Card.Title><br/><br/>
       <Card.Img variant="top" src={vote} /><br/><br/>
       <Card.Body>
-        {(idd==1 )?<><Card.Text>You have already registered the panel</Card.Text>
+        {(idd==1 )?<>
         <Button variant="primary" onClick={()=>navigate('panel-status',{state:{cms_id: location.state.cms_id}})}>Check Status</Button></>:<><Card.Text>You are not eligible to register panel</Card.Text>
         <Button variant="primary" disabled>Register</Button></>}
         
@@ -42,7 +48,9 @@ function HomePage() {
       <Card.Title>Register Panel</Card.Title><br/><br/>
       <Card.Img variant="top" src={vote} /><br/><br/>
       <Card.Body>
-        <Button variant="primary" onClick={()=>navigate('register-panel')}>Register</Button>
+        {(registrationChecked == 1)? <><Button variant="primary" onClick={()=>navigate('register-panel')}>Register</Button></>
+        : <Button variant="primary" disabled>Register</Button>}
+        
       </Card.Body>  
    
     </Card>
@@ -55,7 +63,10 @@ function HomePage() {
       <Card.Title>Caste a Vote</Card.Title><br/><br/>
       <Card.Img variant="top" src={vote} /><br/><br/>
       <Card.Body>
-        <Button variant="primary" onClick={()=>navigate('cast-vote')} >Vote</Button>
+        {(registrationChecked==1 || votingChecked==0) ? 
+        <><Button variant="primary" disabled >Vote</Button></> : 
+        <><Button variant="primary" onClick={()=>navigate('cast-vote')} >Vote</Button></>}
+        
       </Card.Body>
    
     </Card>

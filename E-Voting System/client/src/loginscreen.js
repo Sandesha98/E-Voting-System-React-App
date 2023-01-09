@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import {useForm} from 'react-hook-form';
 import Axios from 'axios';
 import HomePage from './homepage';
+
 function LoginScreen(){
   
     const navigate = useNavigate();
@@ -24,18 +25,30 @@ function LoginScreen(){
       setUser(res.data)
     });
     Axios.get(`http://localhost:3001/getAdminCredentials/${entry.cms_id}`).then((res)=>{
-      console.log(res.data);
+      console.log(res.data[0].Post);
+      if(res.data[0].Post=='CDC'){
+        document.getElementById('hey').style.display='inline';
+        console.log("DONE")
+      }
       setAdmin(res.data)
     });
-  },[entry.cms_id]);
 
+  },[entry.cms_id]);
+  function handlemanage(){
+    if(admin[0].Post=='CDC'){
+     
+      console.log("DONE CSS")
+    }
+  }
+  
     const handleChange = (e) => setInputs(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
     const handleSubmit=()=>{
       setEntry({cms_id: inputs.cms_id , password: inputs.password});
+     
       }
     return(
     <>
-    
+    <div className="containerrr">
     <div className="login-page">  
       <div className="login-box">
         <div className="illustration-wrapper">
@@ -100,6 +113,7 @@ function LoginScreen(){
                 setPost(val.Post);
               }
       })}
+    </div>
     </>
    
    );
