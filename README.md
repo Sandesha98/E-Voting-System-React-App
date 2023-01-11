@@ -6,6 +6,7 @@
 ### In server directory first run 'index.js' file
 
 ```
+cd server
 node index.js
 
 ```
