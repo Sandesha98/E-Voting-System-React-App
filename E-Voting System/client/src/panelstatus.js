@@ -32,7 +32,7 @@ function PanelStatus(){
           :<><h6>Feedback: {(statuss.feedback) ? statuss.feedback : 'NA'}</h6></> }
     
         <div className='div-feed'>
-        {(statuss.Status == 'Pending') || (statuss.feedback!='') ? 
+        {(statuss.Status == 'Pending') || (statuss.feedback!== '') ? 
         <Button variant="primary" onClick={()=>navigate('edit-screen', 
         {state:{cms: location.state.cms_id}})}>Edit</Button> : false}
         <Button variant="primary" onClick={handleClick}>View</Button>

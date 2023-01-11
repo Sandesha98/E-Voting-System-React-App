@@ -1119,3 +1119,41 @@
 16:22:38.957599 table@remove removed @284
 16:41:01.270326 db@close closing
 16:41:01.272123 db@close done T·1.7971ms
+=============== Jan 10, 2023 (PKT) ===============
+13:21:33.634759 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:21:33.643203 version@stat F·[0 2] S·3MiB[0B 3MiB] Sc·[0.00 0.03]
+13:21:33.644202 db@open opening
+13:21:33.644202 journal@recovery F·1
+13:21:33.645201 journal@recovery recovering @285
+13:21:33.692151 memdb@flush created L0@289 N·31853 S·739KiB "n:\x00..ail,d1351304":"n:\xff..ong,d1367962"
+13:21:33.694961 version@stat F·[1 2] S·4MiB[739KiB 3MiB] Sc·[0.25 0.03]
+13:21:33.704666 db@janitor F·6 G·1
+13:21:33.704666 db@janitor removing table-280
+13:21:33.704666 db@open done T·60.4639ms
+13:21:39.563084 table@compaction L0·1 -> L1·2 S·4MiB Q·1380768
+13:21:39.688124 table@build created L1@292 N·48014 S·2MiB "loc..seq,v1310875":"n:\xa7..ail,v1005025"
+13:21:39.741720 table@build created L1@293 N·23991 S·1MiB "n:\xa7..ail,v792942":"version,v1"
+13:21:39.741720 version@stat F·[0 2] S·3MiB[0B 3MiB] Sc·[0.00 0.03]
+13:21:39.743667 table@compaction committed F-1 S-1MiB Ke·0 D·45073 T·180.5832ms
+13:21:39.745467 table@remove removed @287
+13:21:39.746628 table@remove removed @288
+13:26:04.978296 db@close closing
+13:26:04.980291 db@close done T·1.9953ms
+=============== Jan 10, 2023 (PKT) ===============
+13:27:19.517863 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:27:19.518382 version@stat F·[0 2] S·3MiB[0B 3MiB] Sc·[0.00 0.03]
+13:27:19.518382 db@open opening
+13:27:19.518896 journal@recovery F·1
+13:27:19.520446 journal@recovery recovering @290
+13:27:19.525898 memdb@flush created L0@294 N·1161 S·35KiB "loc..seq,v1380700":"n:\xf9..ong,v1381184"
+13:27:19.528028 version@stat F·[1 2] S·3MiB[35KiB 3MiB] Sc·[0.25 0.03]
+13:27:19.537070 db@janitor F·6 G·1
+13:27:19.537070 db@janitor removing table-289
+13:27:19.538067 db@open done T·19.685ms
+13:27:23.266649 table@compaction L0·1 -> L1·2 S·3MiB Q·1381897
+13:27:23.326256 table@build created L1@297 N·48097 S·2MiB "loc..seq,v1380700":"n:\xa6..ail,v1293954"
+13:27:23.370664 table@build created L1@298 N·24657 S·1MiB "n:\xa6..ail,v1349116":"version,v1"
+13:27:23.371168 version@stat F·[0 2] S·3MiB[0B 3MiB] Sc·[0.00 0.03]
+13:27:23.373464 table@compaction committed F-1 S-10KiB Ke·0 D·412 T·106.8146ms
+13:27:23.374230 table@remove removed @292
+13:27:23.375270 table@remove removed @293

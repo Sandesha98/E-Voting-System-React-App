@@ -10,6 +10,7 @@ import Paginationn from './pagination';
 import SubmitPanel from './SubmitPanel';
 import {useNavigate} from 'react-router-dom';
 import HomePage from './homepage';
+
 function RegisterPanel() {
   var b = {};
     const [selectedImage, setSelectedImage] = useState(null);
@@ -26,11 +27,8 @@ function RegisterPanel() {
   const [modalShow, setModalShow] = React.useState(false);
   const navigate = useNavigate();
   useEffect(()=>{
-
       Axios.get("http://localhost:3001/getStudentInfo").then((res)=>{
-
         setUserList(res.data)
-       
       });
       Axios.get("http://localhost:3001/getPosts").then((res)=>{
         setPostId(res.data[count].post_id)
@@ -38,7 +36,6 @@ function RegisterPanel() {
         setCounter(res.data.length)
         });
     },[count]);
-    
     const setValues=()=>{
       {userList && userList.map((val)=>{ 
         if(val.cms_id===cms_id)
@@ -73,8 +70,7 @@ function RegisterPanel() {
       setSelectedImage(null)
     }
     function Next(){
-      console.log(obj)
-      
+     
       handleReset();
       if(post_id>=count)
       {
@@ -97,6 +93,7 @@ function RegisterPanel() {
     }
     
 const addData=async(e)=>{
+ 
   setModalShow(true);
   e.preventDefault();
     var formData = new FormData();
@@ -170,17 +167,16 @@ const addData=async(e)=>{
 
         <Form.Group as={Col} controlId="formGridPassword">
         <Form.Label>CMS-ID</Form.Label>
-        <Form.Control className='cms' name= 'cmsId' placeholder="xxx-xx-xxxx" onMouseOut = {(e)=>{setId(e.target.value)}} onBlur ={setValues} />
+        <Form.Control className='cms' name= 'cmsId' placeholder="xxx-xx-xxxx" 
+        required
+        onMouseOut = {(e)=>{setId(e.target.value)}} onBlur ={setValues} />
+        
       </Form.Group>
       <Form.Group as={Col} controlId="formGridAddress2">
         <Form.Label>Email</Form.Label>
         <Form.Control placeholder="abc@iba-suk.edu.pk" value={obj.email}/>
       </Form.Group>
       </Row>
-
-     
-
-     
 
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridCity">
@@ -235,6 +231,7 @@ const addData=async(e)=>{
       </>
       <SubmitPanel
         show={modalShow}
+        msg='Panel is registered Successfully'
         onHide={()=>{setModalShow(false);
         navigate(-2);
         }

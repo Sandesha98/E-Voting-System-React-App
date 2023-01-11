@@ -24,6 +24,7 @@ function EditScreen() {
   const [prid,setprid]=useState('');
   const [modalShow, setModalShow] = React.useState(false);
   const navigate = useNavigate();
+  let xx = document.getElementById('myImage')
   useEffect(()=>{
       Axios.get(`http://localhost:3001/getStudents/${location.state.cms}`).then((res)=>{
         setUserList((res.data)[count])
@@ -49,13 +50,15 @@ function EditScreen() {
         s.value=(res.data[0]).semester;
         d.value =(res.data[0]).department;
         cn.value=(res.data[0]).contact_num;
+
         
       });
       setAllPosts(allPosts.concat({cms_id: cms_id, candidate_id: userList.candidate_id, post_id: userList.post_id, panel_id: userList.panel_id}))
+      
     }
     const handleReset =()=>{
       let x = document.getElementsByClassName('cms')
-      let xx = document.getElementById('myImage')
+      
       xx.value=''
       x[0].value = ''
       setObj({cms_id: '',name: '',fatherName: '',email:'',department:'',semester:0, cgpa:0, contact_num:''});
@@ -74,8 +77,7 @@ function EditScreen() {
       else{
       setCount(count => count+1)  
       }
-    //  var cn = document.getElementById('cm');
-     // cn.value=userList.cms_id  
+    
     }
     function Prev(){
       if(count<=0)
@@ -88,7 +90,7 @@ function EditScreen() {
     }
     
 const sendData=async(e)=>{
-  // setModalShow(true);
+  setModalShow(true);
   e.preventDefault();
   var formData = new FormData();
   formData.append('dataa',JSON.stringify(allPosts));
@@ -121,12 +123,7 @@ const sendData=async(e)=>{
         </Form.Group>
         <Form.Group as={Col}>
         <div style={{border: '2px solid black', width: '180px', height: '120px'}}>
-        {selectedImage && (
-            <>
-        <img alt="not found" width={"176px"}  height={"116px"} src={URL.createObjectURL(selectedImage)} />
-        </>
-      )}
-            
+        {selectedImage? <img alt="not found" width={"176px"}  height={"116px"} src={URL.createObjectURL(selectedImage)} />:<img alt="not found" width={"176px"}  height={"116px"} src={`/uploads/${userList.picture}`} />  }
         </div>
         <br/>
 
@@ -202,9 +199,7 @@ const sendData=async(e)=>{
           <Form.Control id='cn' value={userList.contact_num}/>
         </Form.Group>
         </Row>
-      {/* <Form.Group className="mb-3" id="formGridCheckbox">
-        <Form.Check type="checkbox" label="I hereby certify that all of the information provided by me in this application is correct."/>
-      </Form.Group> */}
+   
       <br/>
       <>
       {count==(counter-1)?<> 
@@ -216,13 +211,14 @@ const sendData=async(e)=>{
       </Button>
       <br/><br/></>}
       </>
-      {/* <SubmitPanel
+      <SubmitPanel
         show={modalShow}
+        msg = "Panel Data Updated Successfully"
         onHide={()=>{setModalShow(false);
-        navigate(-2);
+        navigate(-1);
         }
         } 
-      /> */}
+      />
     </Form>
 
     </div>

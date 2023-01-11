@@ -15,7 +15,7 @@ function SubmitPanel(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-         Panel is registered Successfully
+         {props.msg}
         </Modal.Title>
       </Modal.Header>
       

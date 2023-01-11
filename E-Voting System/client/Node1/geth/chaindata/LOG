@@ -599,3 +599,27 @@
 15:25:11.820032 db@open done T·73.2531ms
 16:40:58.902463 db@close closing
 16:40:58.905281 db@close done T·2.8177ms
+=============== Jan 10, 2023 (PKT) ===============
+13:21:33.290384 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:21:33.300486 version@stat F·[1 3] S·5MiB[97KiB 5MiB] Sc·[0.25 0.06]
+13:21:33.300486 db@open opening
+13:21:33.300486 journal@recovery F·1
+13:21:33.306384 journal@recovery recovering @144
+13:21:33.328831 memdb@flush created L0@146 N·7722 S·418KiB "\x01\xd7\xc3..<$[,v152699":"\xf3>\xbe..G\xa9\xe1,v152696"
+13:21:33.331586 version@stat F·[2 3] S·6MiB[516KiB 5MiB] Sc·[0.50 0.06]
+13:21:33.340559 db@janitor F·7 G·0
+13:21:33.340559 db@open done T·40.0739ms
+13:26:04.547276 db@close closing
+13:26:04.548825 db@close done T·1.5489ms
+=============== Jan 10, 2023 (PKT) ===============
+13:27:19.135951 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+13:27:19.137049 version@stat F·[2 3] S·6MiB[516KiB 5MiB] Sc·[0.50 0.06]
+13:27:19.137049 db@open opening
+13:27:19.137578 journal@recovery F·1
+13:27:19.141239 journal@recovery recovering @147
+13:27:19.149909 memdb@flush created L0@149 N·362 S·25KiB "\x10\x82...Y\x15\xba,v153090":"\xaf\x04I..\xe84\x06,v153092"
+13:27:19.154177 version@stat F·[3 3] S·6MiB[541KiB 5MiB] Sc·[0.75 0.06]
+13:27:19.175613 db@janitor F·8 G·0
+13:27:19.175613 db@open done T·38.5642ms
+13:55:14.905124 db@close closing
+13:55:14.905631 db@close done T·507.2µs

@@ -53,7 +53,7 @@ var upload = multer({
 //             }
 //         return res.json({files});
 // } )
-// });
+// }); generateReport
 app.post("/startVoting", (req,res)=>{
     const votingChecked = req.body.votingChecked;
     console.log(votingChecked);
@@ -62,6 +62,16 @@ app.post("/startVoting", (req,res)=>{
         console.log(err);
      });
 });
+
+app.post("/generateReport", (req,res)=>{
+    const reportChecked = req.body.reportChecked;
+    console.log(reportChecked);
+    db.query(`UPDATE manageelection set generateReport = ${reportChecked}`,(err,result)=>{
+        //res.send(result);
+        console.log(err);
+     });
+});
+
 app.post("/startRegistration", (req,res)=>{
     const registrationChecked = req.body.registrationChecked;
     db.query(`UPDATE manageelection set startRegistration = ${registrationChecked}`,(err,result)=>{
@@ -179,7 +189,7 @@ app.get("/getStudents/:id",(req,res)=>{
     student.semester,student.cgpa,student.contact_num, candidates.post_id, candidates.candidate_id, candidates.picture, posts.postName 
     from student join candidates on student.cms_id = candidates.cms_id join posts on 
     candidates.post_id = posts.post_id join paneldetails on candidates.panel_id =paneldetails.submittedBy 
-    where paneldetails.Status = 'Pending' AND paneldetails.submittedBy ='${cms}'`,(err,result)=>{
+    where paneldetails.Status IN ('Pending', 'ApprovedByDC') AND paneldetails.submittedBy ='${cms}'`,(err,result)=>{
        res.send(result);
     });    
 });

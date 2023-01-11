@@ -3,7 +3,7 @@ import './App.css';
 import LoginScreen from './loginscreen';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
-import NavBar from './navbar';
+import NavBarr from './navbar';
 import HomePage from './homepage';
 import CastVote from './castvote';
 
@@ -17,7 +17,7 @@ import EditScreen from './EditScreen';
 function App() {
   return (
     <div>
-    <NavBar/>
+    <NavBarr/>
     
     <Routes>
       <Route path= '/' element={<LoginScreen/>}/>

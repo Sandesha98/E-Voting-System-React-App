@@ -4,13 +4,15 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import logo from './logo.jpg'
 import './navbar.css';
-import {Link} from 'react-router-dom';
+import {Link,  useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import Axios  from "axios";
-function NavBar() {
+import LoginScreen from './loginscreen';
+function NavBarr(props) {
   const [votingChecked, setVotingChecked] = useState(false);
-  const[admin,setAdmin]=useState([]);
   const [registrationChecked, setRegistrationChecked] = useState(false);
+  const [reportChecked, setReportChecked] = useState(false);
+  const navigate = useNavigate();
   useEffect(()=>{
     // Axios.get(`http://localhost:3001/getAdminCredentials/${entry.cms_id}`).then((res)=>{
     //   console.log(res.data);
@@ -43,6 +45,26 @@ function NavBar() {
 
      );
    };
+
+   const onSwitchAction1 = () => {
+   
+    setReportChecked(!reportChecked);
+    console.log(reportChecked);
+     Axios.post("http://localhost:3001/generateReport",{reportChecked: !reportChecked}).then((res)=>{
+      console.log(res.data);
+      //setAllPanelData(res.data);
+         }
+
+     );
+   };
+   const handleLogout=()=>{
+    document.getElementById('hey').style.display='';
+    document.getElementById('logout').style.display='';
+    console.log("DONE")
+    sessionStorage.removeItem('data');
+    sessionStorage.removeItem('isLoggedIn')
+    navigate('/')
+   }
   return (
     <>
     
@@ -61,6 +83,7 @@ function NavBar() {
             </Navbar.Brand>
             <Navbar.Collapse id='responsive-navbar-nav' className="justify-content-end">
           </Navbar.Collapse>
+          
           <div id='hey'>
           <NavDropdown title="Manage Election" className='navbar-brand' autoClose="outside" id="basic-nav-dropdown">
               <NavDropdown.Item href="#startregistration">
@@ -85,11 +108,26 @@ function NavBar() {
                 />
                 </Form>
               </NavDropdown.Item>
+
+              <NavDropdown.Item href="#generateReport" className='rr'>
+              <Form>
+                <Form.Switch
+                  onChange={onSwitchAction1}
+                  id="report-switch"
+                  label=" Generate Report"
+                  checked = {reportChecked}                  
+                />
+                </Form>
+              </NavDropdown.Item>
+
+
               </NavDropdown>
               </div>
-          <Navbar.Brand href="#logout" className='rr'>
+              <div id="logout">
+          <Navbar.Brand href="#logout"  className='rr' onClick={handleLogout}>
             Logout
           </Navbar.Brand>
+          </div>
         </Container>
       </Navbar>
     
@@ -97,4 +135,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default NavBarr;

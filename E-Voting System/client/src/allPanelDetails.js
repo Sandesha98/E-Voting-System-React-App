@@ -20,35 +20,11 @@ function AllPanelDetails(){
   const [reject, setReject] = React.useState(false);
   const [accept, setAccept] = React.useState(false);
   const [idd,setId] = useState('');
-//  const [images, setImages]=useState([]);
-//  const [fallback, setFallback]=useState('');
-//  const getImages = async () => {
-//   try{
-//   const res= await axios.get("http://localhost:3001/uploadedImages");
-//   if(!res.data.files){
-//     setFallback(res.data.msg);
-//     return;
-//   }
-//   else{
-//     console.log(res.data.files);
-//     setImages(res.data.files);
-//   }
-//   }
-//   catch(err){
-//     console.log(err);
-//   }
-//  }
-//  const configureImage = (image) => {
-//   return ("http://localhost:3001/uploadedImages/" + image);
-// }
   useEffect(()=> {
     Axios.get("http://localhost:3001/getAllPanels").then((res)=>{
-      //console.log(res.data);
      setAllPanelData(res.data);
      
         });
-        //getImages();
-        //console.log(images);      
   }, []);
   
   const handleAccept=()=>{
@@ -68,11 +44,12 @@ function AllPanelDetails(){
   {console.log(allPanelData)}
     {allPanelData.map((p) => 
     ( 
-      
-    <Card className='reqbody'>
+      <center>
+    <Card className='reqbody' style={{width: "50%"}}>
     <Card.Header><center><h2>{p.postName}</h2></center></Card.Header>
     <Card.Body>
     <Card.Img variant="top" style={{width: "150px", height: "200px",borderRadius:" 8px"}} src={`/uploads/${p.picture}`}></Card.Img>
+    <Card.Text>CMS ID : {p.cms_id}</Card.Text>
     <Card.Text>Name : {p.name}</Card.Text>
     <Card.Text>Father's Name : {p.fatherName}</Card.Text>
     <Card.Text>Email : {p.email}</Card.Text>
@@ -81,10 +58,9 @@ function AllPanelDetails(){
     <Card.Text>Cgpa : {p.cgpa}</Card.Text>
     <Card.Text>Contact Number : {p.contact_num}</Card.Text>
     </Card.Body>
-  </Card> 
-   
+  </Card>   
+  </center>
     )
-
     )}
     {(location.state.isAdmin) ? <div class="col-md-12 text-center">
      <Button variant="light" onClick={() => setReject(true)}>
