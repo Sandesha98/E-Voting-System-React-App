@@ -25,6 +25,10 @@ function RegisterPanel() {
   const [img,setImg]= useState([]);
   const [prid,setprid]=useState('')
   const [modalShow, setModalShow] = React.useState(false);
+const [cmsError, setCmsError] = useState("");
+const [imgError, setImgError] = useState("");
+const [touched, setTouched] = useState(false);
+const [isValid, setIsValid] = useState(false);
   const navigate = useNavigate();
   useEffect(()=>{
       Axios.get("http://localhost:3001/getStudentInfo").then((res)=>{
@@ -37,18 +41,19 @@ function RegisterPanel() {
         });
     },[count]);
     const setValues=()=>{
+      setTouched(true);
       {userList && userList.map((val)=>{ 
         if(val.cms_id===cms_id)
         {
-          // b = {[postName]:{cmsId:val.cms_id, name: val.name, fatherName: val.fatherName, email: val.email,
-          //   department: val.department, cgpa: val.cgpa, contact_num: val.contact_num
-          //   }}
          setObj({cmsId:val.cms_id, name: val.name, fatherName: val.fatherName, email: val.email,
           department: val.department, semester: val.semester,cgpa: val.cgpa, contact_num: val.contact_num
           })
        
         setAllPosts(allPosts.concat({cms_id,post_id})); 
-        console.log(cms_id,post_id)       
+        console.log(cms_id,post_id) 
+        if(touched.cmsId && !isValid){
+          setCmsError("CMS is not valid.");
+        }         
         if(selectedImage!=null)
           {
             setImg(img.concat(selectedImage))
@@ -66,19 +71,54 @@ function RegisterPanel() {
       let xx = document.getElementById('imgc')
       xx.value=''
       x[0].value = ''
+      setId("")
       setObj({cmsId: '',name: '',fatherName: '',email:'',department:'',semester:0, cgpa:0, contact_num:''});
       setSelectedImage(null)
     }
-    function Next(){
+
+    const handleCms = (event) => {
+      //event.preventDefault();
+      let hasError = false;
+      if (!cms_id) {
+          setCmsError("CMS is required.");
+          hasError = true;
+      }
+       else {
+          setCmsError("");
+      }
+      if (selectedImage==null) {
+        setImgError("Picture is required.");
+        hasError = true;
+        event.preventDefault()
+    }
+     else {
+        setImgError("");
+    }
      
-      handleReset();
+    
+      if (hasError || !isValid) {
+        event.preventDefault()
+    }
+      // if(!hasError)
+      // {
+      //  setValues();
+      // }
+    }
+    const handleChange = (event) => {
+      const ssn = event.target.value;
+      setIsValid(/^\d{3}-\d{2}-\d{4}$/.test(ssn));
+    }
+    function Next(){
+       handleCms();
+      
       if(post_id>=count)
       {
         setCount(post_id)
       }
       else{
       setCount(count => count+1)  
-      }  
+      }
+      handleReset();  
       //console.log(`${postName}Image`);
     }
     function Prev(){
@@ -93,9 +133,9 @@ function RegisterPanel() {
     }
     
 const addData=async(e)=>{
- 
-  setModalShow(true);
   e.preventDefault();
+  handleCms();
+  setModalShow(true);
     var formData = new FormData();
     formData.append('tags',JSON.stringify(allPosts));
   formData.append('PrId',JSON.stringify(prid));
@@ -143,8 +183,9 @@ const addData=async(e)=>{
         name=""
         onChange={(event) => {
           setSelectedImage(event.target.files[0]);
-          
         }}
+        isInvalid = {!selectedImage && imgError!==""}
+        isValid = {selectedImage && touched.selectedImage}
       />
       
         </Form.Group>
@@ -169,8 +210,15 @@ const addData=async(e)=>{
         <Form.Label>CMS-ID</Form.Label>
         <Form.Control className='cms' name= 'cmsId' placeholder="xxx-xx-xxxx" 
         required
-        onMouseOut = {(e)=>{setId(e.target.value)}} onBlur ={setValues} />
-        
+        onMouseOut = {(e)=>{setId(e.target.value)}} onBlur ={setValues}
+        pattern="^\d{3}-\d{2}-\d{4}$" 
+        onChange={handleChange}  
+        isInvalid={!isValid && !touched.cmsId && !cms_id && cmsError!==""}
+        isValid={cms_id && isValid}
+        />
+  <Form.Control.Feedback type="invalid">
+        {cmsError}
+    </Form.Control.Feedback>
       </Form.Group>
       <Form.Group as={Col} controlId="formGridAddress2">
         <Form.Label>Email</Form.Label>
