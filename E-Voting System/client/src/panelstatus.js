@@ -24,10 +24,11 @@ function PanelStatus(){
         <div className="pan-stat" >
         <center> <h3>{statuss.Status}</h3></center>
           {(statuss.Status=='Approved') ?<>
-          <center>   <h5>Congratulations! Your panel is approved.</h5></center>
+          <center><h5>Congratulations! Your panel is approved.</h5>
           <h5>Panel Name: {statuss.panelName}</h5>
-          <h5>Panel Symbol:</h5>
-           <img src={`/uploads/${statuss.symbol}`} alt='panel symbol'></img>
+          <h5>Panel Symbol</h5>
+           <img src={`/uploads/${statuss.symbol}`} width='200px' height='200px' alt='panel symbol'></img>
+           </center>
           </>
           :<><h6>Feedback: {(statuss.feedback) ? statuss.feedback : 'NA'}</h6></> }
     

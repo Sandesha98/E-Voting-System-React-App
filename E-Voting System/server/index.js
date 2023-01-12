@@ -41,24 +41,10 @@ var upload = multer({
     storage: storage,
     fileFilter: isImage
 });
-//retrieving images
-// app.get('/uploadedImages', (req,res)=>{
-//     const uploadsDirectory = path.join('uploads');
-//    fs.readdir(uploadsDirectory, (err,files)=>{
-//          if(err){
-//               return res.json({msg: err});
-//             }
-//             if(files.length===0){
-//                 return res.json({msg: "No files found"});
-//             }
-//         return res.json({files});
-// } )
-// }); generateReport
 app.post("/startVoting", (req,res)=>{
     const votingChecked = req.body.votingChecked;
     console.log(votingChecked);
     db.query(`UPDATE manageelection set startVoting = ${votingChecked}`,(err,result)=>{
-        //res.send(result);
         console.log(err);
      });
 });
@@ -261,6 +247,29 @@ app.get("/getCandidateDetails",(req,res)=>{
         res.send(result);
      })
 });
+//generate report
+app.get('/report', (req, res) => {
+   db.query(`Select posts.postName, student.name, student.cms_id, student.department, paneldetails.panelName, posts.post_id, student.semester from student join candidates on student.cms_id = candidates.cms_id join posts on candidates.post_id = posts.post_id join paneldetails on candidates.panel_id= paneldetails.submittedBy where paneldetails.Status="Approved" and paneldetails.submittedBy=candidates.panel_id`,(err,result)=>{
+    res.send(result);
+ })
+});
+
+app.get('/generateReport', (req, res) => {
+    db.query(`Select generateReport from manageelection`,(err,result)=>{
+     res.send(result);
+  })
+ });
+app.get('/getPOstss', (req, res) => {
+    db.query(`SELECT * FROM posts;`,(err,result)=>{
+     res.send(result);
+  })
+ });
+
+// app.get('/approvedPanels', (req, res) => {
+//     db.query(`Select panelName, symbol from paneldetails where Status="Approved"`,(err,result)=>{
+//      res.send(result);
+//   })
+//  });
 app.listen(3001, ()=>{
     console.log("running on port 3001");
 }) 

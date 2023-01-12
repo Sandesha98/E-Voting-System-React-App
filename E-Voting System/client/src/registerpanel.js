@@ -196,13 +196,13 @@ const addData=async(e)=>{
       <Form.Group as={Col} controlId="formGridState">
           <Form.Label>Department</Form.Label>
           <Form.Select value={obj.department}>
+            <option>Computer Science</option>
+            <option>Electrical Engineering</option>
+            <option>Education</option>
+            <option>Business Administration</option>
+            <option>Mathematics</option>
+            <option>Media Science</option>
             
-            <option>Electrical Department</option>
-            <option>Education Department</option>
-            <option>Business Department</option>
-            <option>Mathematics Department</option>
-            <option>Media Science Department</option>
-            <option>Computer Science Department</option>
           </Form.Select>
         </Form.Group>
 

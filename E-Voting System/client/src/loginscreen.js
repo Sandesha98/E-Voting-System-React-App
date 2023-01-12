@@ -19,19 +19,23 @@ function LoginScreen(){
    const [sem, setSem]= useState();
    const [isAdmin, setIsAdmin] = useState(false);
    const [post, setPost] = useState('');
+   const [generateReport, setGenerateReport] = useState('0');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
    useEffect(()=>{
      Axios.get(`http://localhost:3001/getCredentials/${entry.cms_id}`).then((res)=>{
       console.log(res.data);
-      setUser(res.data);
-
-      
+      setUser(res.data);   
     });
+    Axios.get("http://localhost:3001/generateReport").then((res)=>{
+      if(res.data[0].generateReport==1){
+      setGenerateReport((res.data[0]).generateReport);
+      }
+          });
     Axios.get(`http://localhost:3001/getAdminCredentials/${entry.cms_id}`).then((res)=>{
       console.log(res.data[0].Post);
       if(res.data[0].Post=='CDC'){
         document.getElementById('hey').style.display='inline';
-        console.log("DONE")
+        
       }
      
       setAdmin(res.data)
@@ -58,15 +62,23 @@ function LoginScreen(){
           password: entry.password,
           sem: sem,
         }
+      if(generateReport==1){
+        document.getElementById('report').style.display='inline';
+      
+      }
         sessionStorage.setItem('data', JSON.stringify(userData));
         sessionStorage.setItem('isLoggedIn', true);
       }
-      const handleAdminLogin = () =>{
+       const handleAdminLogin = () =>{
         navigate('panel-request', {state:{isAdmin: isAdmin, post: post}})
         const adminData = {
           cms_id: entry.cms_id,
           password: entry.password,
           post: post
+        }
+        console.log("This is generate report",generateReport);
+        if(generateReport==1){
+          document.getElementById('report').style.display='inline';
         }
         sessionStorage.setItem('adminData', JSON.stringify(adminData));
         sessionStorage.setItem('post',JSON.stringify(adminData.post));
@@ -130,7 +142,9 @@ function LoginScreen(){
               setSem(val.semester) 
               setUserLogin(true);
               document.getElementById('logout').style.display='inline';
+            
             }
+           
     })
    
     }
@@ -141,7 +155,9 @@ function LoginScreen(){
                 setPost(val.Post);
                 document.getElementById('logout').style.display='inline';
                // document.getElementById('logout').style.display='inline';
+             
               }
+
       })}
     </div>
     </>

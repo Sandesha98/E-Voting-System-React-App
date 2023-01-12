@@ -14,6 +14,7 @@ import PanelRequest from './panelrequest';
 import ViewPanelDetails from './viewpaneldetails';
 import AllPanelDetails from './allPanelDetails';
 import EditScreen from './EditScreen';
+import Report from './report';
 function App() {
   return (
     <div>
@@ -22,6 +23,7 @@ function App() {
     <Routes>
       <Route path= '/' element={<LoginScreen/>}/>
       <Route path='/homepage' element={<HomePage/>}/>
+      <Route path='/report' element={<Report/>}/>
        <Route path='homepage/register-panel' element={<RegisterPanel/>}/>
         <Route path='homepage/cast-vote' element={<CastVote/>}/>
       <Route path='homepage/panel-status' element={<PanelStatus/>}/>

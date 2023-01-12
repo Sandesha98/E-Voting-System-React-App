@@ -12,6 +12,7 @@ function NavBarr(props) {
   const [votingChecked, setVotingChecked] = useState(false);
   const [registrationChecked, setRegistrationChecked] = useState(false);
   const [reportChecked, setReportChecked] = useState(false);
+  const [chkreport, setChkreport] = useState(false);
   const navigate = useNavigate();
   useEffect(()=>{
     // Axios.get(`http://localhost:3001/getAdminCredentials/${entry.cms_id}`).then((res)=>{
@@ -22,7 +23,7 @@ function NavBarr(props) {
       console.log(res.data[0]);
       {res.data[0].startRegistration==1?setRegistrationChecked(true):setRegistrationChecked(false)}
       {res.data[0].startVoting==1?setVotingChecked(true):setVotingChecked(false)}
-     
+      {res.data[0].generateReport==1?setReportChecked(true):setReportChecked(false)}
   } )
   });
   const onSwitchAction = () => {
@@ -34,6 +35,14 @@ function NavBarr(props) {
          }
 
      );
+     if(document.getElementById('voting-switch').checked==true){
+      document.getElementById('registration-switch').disabled = true
+      document.getElementById('report-switch').disabled = true
+     }
+     else{
+      document.getElementById('registration-switch').disabled = false
+      document.getElementById('report-switch').disabled = false
+     }
    };
    const onSwitchAction2 = () => {
    
@@ -44,22 +53,43 @@ function NavBarr(props) {
          }
 
      );
+     if(document.getElementById('registration-switch').checked==true){
+      document.getElementById('report-switch').disabled = true
+      document.getElementById('voting-switch').disabled = true
+     }
+     else{
+      document.getElementById('report-switch').disabled = false
+      document.getElementById('voting-switch').disabled = false
+     }
    };
+
+   
 
    const onSwitchAction1 = () => {
    
     setReportChecked(!reportChecked);
     console.log(reportChecked);
-     Axios.post("http://localhost:3001/generateReport",{reportChecked: !reportChecked}).then((res)=>{
-      console.log(res.data);
+    Axios.post("http://localhost:3001/generateReport",{reportChecked: !reportChecked}).then((res)=>{
+    console.log(res.data);
       //setAllPanelData(res.data);
-         }
-
+     
+        }
+        
      );
+    {((document.getElementById('report-switch').checked==true)) ? document.getElementById('report').style.display='inline' : document.getElementById('report').style.display='' }
+   if(document.getElementById('report-switch').checked==true){
+    document.getElementById('registration-switch').disabled = true
+    document.getElementById('voting-switch').disabled = true
+   }
+   else{
+    document.getElementById('registration-switch').disabled = false
+    document.getElementById('voting-switch').disabled = false
+   }
    };
    const handleLogout=()=>{
     document.getElementById('hey').style.display='';
     document.getElementById('logout').style.display='';
+    document.getElementById('report').style.display='';
     console.log("DONE")
     sessionStorage.removeItem('data');
     sessionStorage.removeItem('isLoggedIn')
@@ -83,7 +113,11 @@ function NavBarr(props) {
             </Navbar.Brand>
             <Navbar.Collapse id='responsive-navbar-nav' className="justify-content-end">
           </Navbar.Collapse>
-          
+          <div id="report">
+          <Navbar.Brand  onClick={()=>navigate('/report')}>
+            Report
+          </Navbar.Brand>
+          </div>
           <div id='hey'>
           <NavDropdown title="Manage Election" className='navbar-brand' autoClose="outside" id="basic-nav-dropdown">
               <NavDropdown.Item href="#startregistration">
@@ -123,11 +157,13 @@ function NavBarr(props) {
 
               </NavDropdown>
               </div>
+              
               <div id="logout">
-          <Navbar.Brand href="#logout"  className='rr' onClick={handleLogout}>
+          <Navbar.Brand href=""  className='rr' onClick={handleLogout}>
             Logout
           </Navbar.Brand>
           </div>
+          
         </Container>
       </Navbar>
     
