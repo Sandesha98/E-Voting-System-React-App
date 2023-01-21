@@ -111,12 +111,12 @@ app.get("/getDCApprovedPanels",(req,res)=>{
     })    
 });
 app.get("/getApprovedPanels",(req,res)=>{
-    db.query("Select panel_id, submittedBy from paneldetails where Status='Approved'",(err,result)=>{
+    db.query("Select panel_id, submittedBy from paneldetails where Status='Approved' AND electionYear=YEAR(CURDATE())",(err,result)=>{
        res.send(result);
     })    
 });
 app.get("/getCDCApprovedPanels",(req,res)=>{
-    db.query("Select panel_id, submittedBy from paneldetails where Status='Approved'",(err,result)=>{
+    db.query("Select panel_id, submittedBy from paneldetails where Status='Approved' AND electionYear=YEAR(CURDATE())",(err,result)=>{
        res.send(result);
     })    
 });
@@ -223,8 +223,8 @@ app.post("/update", upload.array("myImage",10), (req,res)=>{
 app.post("/giveDetails", upload.single("myImage"), (req,res)=>{
     const name = JSON.parse(req.body.name); 
     const {filename} = req.file;  
-    db.query(`Update panelDetails SET panelName='${name}', symbol='${filename}', ApprovedBy='CDC', Status='Approved', feedback='' where submittedBy = '${x}'`,(err,result)=>{
-        // console.log(err);
+    db.query(`Update panelDetails SET panelName='${name}', symbol='${filename}', ApprovedBy='CDC', Status='Approved', feedback='', electionYear= YEAR(CURDATE()) where submittedBy = '${x}'`,(err,result)=>{
+         console.log(err);
     })  
 });
 app.post("/AcceptedByDC", (req,res)=>{
@@ -243,13 +243,13 @@ app.post("/rejectedByCDC", (req,res)=>{
     })  
 });
 app.get("/getCandidateDetails",(req,res)=>{
-    db.query("SELECT paneldetails.panelName, paneldetails.symbol from paneldetails where Status = 'Approved'",(err,result)=>{
+    db.query("SELECT paneldetails.panelName, paneldetails.symbol from paneldetails where Status = 'Approved' AND electionYear=YEAR(CURDATE())",(err,result)=>{
         res.send(result);
      })
 });
 //generate report
 app.get('/report', (req, res) => {
-   db.query(`Select posts.postName, student.name, student.cms_id, student.department, paneldetails.panelName, posts.post_id, student.semester from student join candidates on student.cms_id = candidates.cms_id join posts on candidates.post_id = posts.post_id join paneldetails on candidates.panel_id= paneldetails.submittedBy where paneldetails.Status="Approved" and paneldetails.submittedBy=candidates.panel_id`,(err,result)=>{
+   db.query(`Select posts.postName, student.name, student.cms_id, student.department, paneldetails.panelName, posts.post_id, student.semester from student join candidates on student.cms_id = candidates.cms_id join posts on candidates.post_id = posts.post_id join paneldetails on candidates.panel_id= paneldetails.submittedBy where paneldetails.Status="Approved" AND electionYear = YEAR(CURDATE()) AND paneldetails.submittedBy=candidates.panel_id`,(err,result)=>{
     res.send(result);
  })
 });

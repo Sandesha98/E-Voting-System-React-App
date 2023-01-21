@@ -71,7 +71,8 @@ const [isValid, setIsValid] = useState(false);
       let xx = document.getElementById('imgc')
       xx.value=''
       x[0].value = ''
-      setId("")
+      setId("");
+      setTouched(false);
       setObj({cmsId: '',name: '',fatherName: '',email:'',department:'',semester:0, cgpa:0, contact_num:''});
       setSelectedImage(null)
     }
@@ -110,7 +111,7 @@ const [isValid, setIsValid] = useState(false);
     }
     function Next(){
        handleCms();
-      
+       handleReset();
       if(post_id>=count)
       {
         setCount(post_id)
@@ -118,7 +119,7 @@ const [isValid, setIsValid] = useState(false);
       else{
       setCount(count => count+1)  
       }
-      handleReset();  
+        
       //console.log(`${postName}Image`);
     }
     function Prev(){
@@ -189,7 +190,7 @@ const addData=async(e)=>{
       />
       
         </Form.Group>
-   
+        
         
       </Row>
       <Row className="mb-3">
@@ -211,9 +212,9 @@ const addData=async(e)=>{
         <Form.Control className='cms' name= 'cmsId' placeholder="xxx-xx-xxxx" 
         required
         onMouseOut = {(e)=>{setId(e.target.value)}} onBlur ={setValues}
-        pattern="^\d{3}-\d{2}-\d{4}$" 
+       // pattern="^\d{3}-\d{2}-\d{4}$" 
         onChange={handleChange}  
-        isInvalid={!isValid && !touched.cmsId && !cms_id && cmsError!==""}
+        isInvalid={!touched && cmsError!==""}
         isValid={cms_id && isValid}
         />
   <Form.Control.Feedback type="invalid">

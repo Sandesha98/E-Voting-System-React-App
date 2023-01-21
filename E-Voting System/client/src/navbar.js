@@ -4,17 +4,50 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import logo from './logo.jpg'
 import './navbar.css';
+import getWeb3 from './getWeb3';
+import HelloWorld from './contracts/HelloWorld.json';
 import {Link,  useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import Axios  from "axios";
 import LoginScreen from './loginscreen';
+import { set } from 'react-hook-form';
 function NavBarr(props) {
   const [votingChecked, setVotingChecked] = useState(false);
   const [registrationChecked, setRegistrationChecked] = useState(false);
   const [reportChecked, setReportChecked] = useState(false);
   const [chkreport, setChkreport] = useState(false);
+  const [web3,setWeb3] = useState(null);
+  const [accounts,setaccounts] = useState(null);
+  const [contract,setcontract] = useState(null);
+  const [panelData,setPanelData] = useState([])
   const navigate = useNavigate();
   useEffect(()=>{
+
+
+    const connectWeb3 = async()=>{
+    const web3 = await getWeb3();
+    
+      // Use web3 to get the user's accounts.
+      const accounts = await web3.eth.getAccounts();
+      console.log("hey",accounts);
+      
+      // Get the contract instance.
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = HelloWorld.networks[networkId];
+      const instance = new web3.eth.Contract(
+        HelloWorld.abi,
+        deployedNetwork && deployedNetwork.address,
+      );
+     // instance.options.address = accounts[0];
+      console.log(instance)
+      // Set web3, accounts, and contract to the state, and then proceed with an
+      // example of interacting with the contract's methods.
+      // this.setState({ web3, accounts, contract: instance },this.fetchData);
+      setWeb3(web3);
+      setaccounts(accounts);
+      setcontract(instance);
+    }
+    connectWeb3();
     // Axios.get(`http://localhost:3001/getAdminCredentials/${entry.cms_id}`).then((res)=>{
     //   console.log(res.data);
     //   setAdmin(res.data)
@@ -26,15 +59,31 @@ function NavBarr(props) {
       {res.data[0].generateReport==1?setReportChecked(true):setReportChecked(false)}
   } )
   });
-  const onSwitchAction = () => {
+  const onSwitchAction = async () => {
    
     setVotingChecked(!votingChecked);
+    console.log(!votingChecked);
      Axios.post("http://localhost:3001/startVoting",{votingChecked:!votingChecked}).then((res)=>{
      // console.log(res.data);
       //setAllPanelData(res.data);
          }
 
      );
+     if(!votingChecked){
+      console.log("hey")
+      // Get network provider and web3 instance.
+      
+      Axios.get("http://localhost:3001/getCandidateDetails").then((res)=>{
+        console.log(res.data);
+        res.data.map((item)=>{
+          console.log(item.panelName);
+          contract.methods.addPanel(item.panelName).send({from: accounts[0]});
+        })
+        //this.setState({panelData:res.data});
+       setPanelData(res.data)
+      });
+      
+    }
      if(document.getElementById('voting-switch').checked==true){
       document.getElementById('registration-switch').disabled = true
       document.getElementById('report-switch').disabled = true
@@ -44,6 +93,8 @@ function NavBarr(props) {
       document.getElementById('report-switch').disabled = false
      }
    };
+   
+
    const onSwitchAction2 = () => {
    
     setRegistrationChecked(!registrationChecked);

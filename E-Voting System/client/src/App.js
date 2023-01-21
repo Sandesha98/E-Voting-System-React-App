@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import NavBarr from './navbar';
 import HomePage from './homepage';
 import CastVote from './castvote';
-
+import ReportMain from './reportttt';
 import RegisterPanel from './registerpanel';
 import PanelStatus from './panelstatus';
 import {Routes, Route} from 'react-router-dom';
@@ -23,7 +23,8 @@ function App() {
     <Routes>
       <Route path= '/' element={<LoginScreen/>}/>
       <Route path='/homepage' element={<HomePage/>}/>
-      <Route path='/report' element={<Report/>}/>
+      {/* <Route path='/report' element={<Report/>}/> */}
+      <Route path='/report' element={<ReportMain/>}/>
        <Route path='homepage/register-panel' element={<RegisterPanel/>}/>
         <Route path='homepage/cast-vote' element={<CastVote/>}/>
       <Route path='homepage/panel-status' element={<PanelStatus/>}/>

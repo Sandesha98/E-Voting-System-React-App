@@ -8,12 +8,14 @@ import Axios from 'axios';
 import HomePage from './homepage';
 import NavBarr from './navbar';
 function LoginScreen(){
-  
+    const [form] = Form.useForm();
+
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
     const [entry,setEntry] = useState({});
    const [user, setUser] = useState([]);
    const [admin, setAdmin] = useState([]);
+   const [checkid, setCheckid] = useState(false);
    const [userLogin, setUserLogin] = useState(false);
    const [adminLogin, setAdminLogin] = useState(false);
    const [sem, setSem]= useState();
@@ -24,6 +26,9 @@ function LoginScreen(){
    useEffect(()=>{
      Axios.get(`http://localhost:3001/getCredentials/${entry.cms_id}`).then((res)=>{
       console.log(res.data);
+      if(res.data==0){
+        setCheckid(true);
+      }
       setUser(res.data);   
     });
     Axios.get("http://localhost:3001/generateReport").then((res)=>{
@@ -32,11 +37,15 @@ function LoginScreen(){
       }
           });
     Axios.get(`http://localhost:3001/getAdminCredentials/${entry.cms_id}`).then((res)=>{
-      console.log(res.data[0].Post);
+      console.log(res.data);
+      if(res.data==0){
+        setCheckid(true);
+      }
       if(res.data[0].Post=='CDC'){
         document.getElementById('hey').style.display='inline';
         
       }
+     
      
       setAdmin(res.data)
     });
@@ -84,15 +93,61 @@ function LoginScreen(){
         sessionStorage.setItem('post',JSON.stringify(adminData.post));
         sessionStorage.setItem('isAdminLoggedIn', true);
       }
+      const loginn = () =>{
+       // ((adminLogin) ? handleAdminLogin() : ((userLogin) ? handleUserLogin() : false))
+      if(adminLogin)
+      {
+        handleAdminLogin();
+      }
+      else if(userLogin){
+        handleUserLogin();
+      }
+      else if(form.isFieldsTouched()){
+        setCheckid(true);
+      }
+    }
     return(
     <>
+    
+    {user && user.map((val)=>{
+              
+              if(entry.cms_id === val.cms_id && entry.password === val.password){
+                setSem(val.semester) 
+                setUserLogin(true);
+                         
+                document.getElementById('logout').style.display='inline';
+              
+              }
+              else{
+                console.log(checkid);
+                setCheckid(true);
+              }
+              
+      })
+     
+      }
+        {admin && admin.map((val)=>{ 
+                if(entry.cms_id === val.Employee_id && entry.password === val.Password){
+                  setAdminLogin(true);
+                  setIsAdmin(true);
+                 
+                  setPost(val.Post);
+                  document.getElementById('logout').style.display='inline';
+                
+                }
+                
+              else{
+                console.log(checkid);
+                setCheckid(true);
+              }
+        })}
     <div className="containerrr">
     <div className="login-page">  
       <div className="login-box">
         <div className="illustration-wrapper">
-          <img src={vote} alt="Login"/>
+          <img src={vote} alt="Login" />
         </div>
-        <Form onFinish={handleSubmit}
+        <Form onFinish={handleSubmit} form={form}
           name="login-form"
           initialValues={{ remember: true }}
        
@@ -101,6 +156,7 @@ function LoginScreen(){
           <br/>
           
           <Form.Item
+          shouldUpdate={true}
             name="username"
             rules={[{ required: true, message: 'Please input your CMS-ID' }]}
           >
@@ -113,6 +169,7 @@ function LoginScreen(){
           </Form.Item>
 
           <Form.Item
+          shouldUpdate={true}
             name="password"
             rules={[{ required: true, message: 'Please input your password' }]}
           >
@@ -121,44 +178,26 @@ function LoginScreen(){
               placeholder="Password"
               onChange={handleChange}
               value={inputs.password}
+              
             />
           </Form.Item>
 
-         
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button"  onClick={(adminLogin) ? handleAdminLogin() : ((userLogin) ? handleUserLogin() : false)} >
+          {/* {checkid && <p className="error">Invalid Credentials</p>} */}
+          
+          <Form.Item >
+            <Button type="primary" htmlType="submit" className="login-form-button"  onClick={((adminLogin) ? handleAdminLogin() : ((userLogin) ? handleUserLogin() : false))} >
               LOGIN
-              
+
             </Button>
+          
           </Form.Item>
+         
           
         </Form>
+        
       </div>      
     </div>
-    {user && user.map((val)=>{
-              
-            if(entry.cms_id === val.cms_id && entry.password === val.password){
-              setSem(val.semester) 
-              setUserLogin(true);
-              document.getElementById('logout').style.display='inline';
-            
-            }
-           
-    })
-   
-    }
-      {admin && admin.map((val)=>{ 
-              if(entry.cms_id === val.Employee_id && entry.password === val.Password){
-                setAdminLogin(true);
-                setIsAdmin(true);
-                setPost(val.Post);
-                document.getElementById('logout').style.display='inline';
-               // document.getElementById('logout').style.display='inline';
-             
-              }
-
-      })}
     </div>
     </>
    

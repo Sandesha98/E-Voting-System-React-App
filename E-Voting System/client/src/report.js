@@ -2,11 +2,16 @@ import Table from 'react-bootstrap/Table';
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import './report.css';
+import getWeb3 from './getWeb3';
+import $ from 'jquery';
+import HelloWorld from './contracts/HelloWorld.json';
+
 function Report() {
     const [reportData, setReportData] = useState([]);
     const [approvedPanels, setApprovedPanels] = useState([]);
     const [posts, setPosts] = useState([]);
-    useEffect(() => {
+
+    useEffect( async () => {
         Axios.get(`http://localhost:3001/report`).then((res) => {
             setReportData(res.data);
             console.log(res.data);
@@ -19,6 +24,8 @@ function Report() {
             setApprovedPanels(res.data);
             console.log(res.data);
         });
+
+       
     }, []);
 
 

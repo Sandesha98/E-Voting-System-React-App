@@ -3,8 +3,8 @@
 pragma solidity ^0.5.16;
 
 contract HelloWorld {
-       function append(string memory a, string memory b, string memory c, string memory d, string memory e) internal pure returns (string memory) {
-    return string(abi.encodePacked(a, b, c, d, e));
+       function append(string memory b, string memory c, string memory d, string memory e,string memory f) internal pure returns (string memory) {
+    return string(abi.encodePacked( b, c, d, e,f));
     }
     function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
         if (_i == 0) {
@@ -88,7 +88,16 @@ contract HelloWorld {
     function winnerName() public view returns (string memory) {
         string memory x = "  ";
         for (uint256 p=0;p<panelsCount;p++){
-           x =  append("Name : ",panels[p].name," Total Vote: ",uint2str(panels[p].voteCount),x);
+           x =  append(panels[p].name,":",uint2str(panels[p].voteCount),",",x);
+        }
+
+        return x;
+    }
+
+    function totalVotes() public view returns (uint256){
+         uint256 x = 0;
+         for (uint256 p=0;p<panelsCount;p++){
+           x = x +  panels[p].voteCount;
         }
 
         return x;
