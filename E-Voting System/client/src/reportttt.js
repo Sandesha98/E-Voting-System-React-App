@@ -17,7 +17,7 @@ class ReportMain extends React.Component {
     super(props);
     this.ref = React.createRef();
   }
-    state = {reportData:[],posts:[],approvedPanels: [], modalShow: false ,panelData:[], winnerNa:'',votee : '' ,storageValue: 0, totalColumns: 0, web3: null, accounts: null, contract: null, balances: '', address:'', amount:'' };
+    state = {panRes:[],reportData:[],posts:[],approvedPanels: [], modalShow: false ,panelData:[], winnerNa:'',votee : '' ,storageValue: 0, totalColumns: 0, web3: null, accounts: null, contract: null, balances: '', address:'', amount:'' };
     generateReport= async ()=>{
     const image = await htmlToImage.toPng(this.ref.current);
     var doc = new jsPDF();
@@ -77,15 +77,26 @@ class ReportMain extends React.Component {
     fetchData = async () => {   
       console.log("helo")
       const { accounts, contract } = this.state;
+      let pan = [];
       
      // const response = await contract.methods.winnerName().call();
       const response = await contract.methods.totalVotes().call();
       const response2 = await contract.methods.winnerName().call();
+      const response3 = await contract.methods.panelsCount().call();
+      for(var i=0;i<response3;i++){
+      const response4 = await contract.methods.panels(i).call();
+     
+      pan.unshift(response4);
+      }
+      const response5 = await contract.methods.winningProposal().call();
+      const response6 = await contract.methods.panels(response5).call();
       // let balanceresult = await Promise.all (accounts.map(async (account) => {
       //   return await contract.methods.winnerName().call();
       // } ) );
+      console.log("pan",pan[0].name);
+      this.setState({panRes:pan});
       console.log("response",response);
-      this.setState({ winnerNa: response2});
+      this.setState({ winnerNa: response6.name});
       this.setState({ storageValue: response});
     };          
   
@@ -113,11 +124,16 @@ class ReportMain extends React.Component {
                         );
                 }
                 )}
-                
+                {/* {this.state.panRes && this.state.panRes.map((val) => {
+                    return (
+                        <th colSpan={3}><center>{val.name}</center></th>
+                    );
+                }
+                )} */}
                 </tr>
                 </thead>
             <tbody>
-                {console.log(this.state.reportData)}
+              {console.log(this.state.reportData)}
                 {
                     this.state.posts.map((val) => {
                         return (
@@ -140,6 +156,7 @@ class ReportMain extends React.Component {
                             </tr>
                         );
                     })}
+ 
                     <tr>
                     <th>Symbol</th>
                     {this.state.approvedPanels.map((val) => {
@@ -158,19 +175,46 @@ class ReportMain extends React.Component {
                   </td>
                 </tr>
              <tr>
+              {console.log("panres",this.state.panRes)}
               <th>Votes</th>
-              
-                  {names.map((item)=>{
-                    return(
-                      <td colSpan={3}>
-                <center>
-                    <span>{item.split(":").slice(1)}</span>
-                    </center>
-                    </td>
+              {/* {this.state.panRes && this.state.panRes.map((val2) => {
+                     this.state.approvedPanels && this.state.approvedPanels.map((val) => {
+
+                       if(val.panelName === val2.name){
+                          console.log("val",val.panelName, "val 2",val2.voteCount);
+                      //if(val2.name === "B"){
+                    return (
+                       
                     );
-                  })}
-                    
+                    }
+                  })})} */}
+       { this.state.approvedPanels.map((approvedPanel) => {
+let matchingPanRes =  this.state.panRes.find(pan => pan.name === approvedPanel.panelName);
+  return matchingPanRes ?   <td colSpan={3}><center>{matchingPanRes.voteCount}</center></td>: null;
+})
+}
+              {/* {this.state.approvedPanels && this.state.approvedPanels.map((val) => {
+                    {this.state.panRes && this.state.panRes.map((val2) => {
+                     
+                      if(val.panelName === val2.name){
+                         console.log("val",val.panelName, "val 2",val2.voteCount);
+                    return (
+                        <td><center>{val2.name}</center></td>
+                    );
+                }
+                }
+                )}
+                })
+              }
              
+              */}
+             </tr>
+
+             <tr>
+              <th>Winner</th>
+          
+              <th colSpan={this.state.totalColumns}><center>{this.state.winnerNa}</center></th>
+          
              </tr>
             </tbody>
         </Table>
@@ -184,11 +228,7 @@ class ReportMain extends React.Component {
             
             </center>
             <br/>
-            {/* <button id="getName" onClick={this.winner.bind(this)}>SHOW</button>
-            <label class="center-label" for="output">OUTPUT </label>
-            <div id="output">winnerName : {this.state.winnerNa}</div>
-            <div id="output">winnerName : {this.state.storageValue}</div>
-            <br></br><br></br> */}
+       
          </>
       );
     }

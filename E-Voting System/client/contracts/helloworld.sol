@@ -42,6 +42,7 @@ contract HelloWorld {
         uint256 voteCount;
     }
     mapping(address => bool) public voters;
+    mapping (string => bool) public userVoted;
     uint256 public panelsCount;
 
     mapping(uint256 => Panel) public panels;
@@ -54,9 +55,10 @@ contract HelloWorld {
 
     event votedEvent(string indexed _panelId);
 
-    function vote(string memory _panelId) public {
+    function vote(string memory _panelId,string memory _userID) public {
         // require that they haven't voted before
         require(!voters[msg.sender]);
+        //require(!userID(_userID));
 
         // require a valid candidate
         // require(_candidateId > 0 && _candidateId <= candidatesCount);
@@ -68,13 +70,17 @@ contract HelloWorld {
             }
         }
         //voters[msg.sender] = true;
+        
+        require(msg.sender != address(0), "Invalid address");
+        require(!userVoted[_userID], "User has already voted");
 
+        userVoted[_userID] = true;
         // update candidate vote Count
 
         // trigger voted event
         emit votedEvent(_panelId);
     }
-
+    
     function winningProposal() public view returns (uint256 winningProposal_) {
         uint256 winningVoteCount = 0;
         for (uint256 p = 0; p < panelsCount; p++) {
@@ -102,4 +108,5 @@ contract HelloWorld {
 
         return x;
     }
+
 }

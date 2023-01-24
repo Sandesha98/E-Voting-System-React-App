@@ -153,8 +153,7 @@ app.get("/getPosts",(req,res)=>{
     })    
 });
 app.get("/getStudentInfo",(req,res)=>{
-    const sqlInsert = "Select * from student";
-    db.query(sqlInsert,(err,result)=>{
+    db.query("Select * from student",(err,result)=>{
        res.send(result);
     })    
 });

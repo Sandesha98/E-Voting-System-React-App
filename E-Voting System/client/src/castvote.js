@@ -7,8 +7,9 @@ import $ from 'jquery';
 import HelloWorld from './contracts/HelloWorld.json';
 import ModalVote from './modalVote';
 import Axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,useLocation} from 'react-router-dom';
 const CastVote = () => {
+  const location = useLocation();
     const [modalShow, setModalShow] = useState(false) 
     const [panelData, setPanelData] = useState([])
     const [winnerNa, setWinnerNa] = useState('')
@@ -59,6 +60,7 @@ const CastVote = () => {
       Axios.get("http://localhost:3001/getCandidateDetails").then((res)=>{
       console.log(res.data);
       setPanelData(res.data);
+      console.log("cms ID",location.state.cms_id)
   
     });          
     }
@@ -66,7 +68,7 @@ const CastVote = () => {
     const castevote = async (NAME)=>{
     
       //const { accounts, contract } = this.state;
-        contract.methods.vote(NAME).send({from: accounts[0]});
+        contract.methods.vote(NAME,location.state.cms_id).send({from: accounts[0]});
       
         console.log(NAME);
         mmSet();
