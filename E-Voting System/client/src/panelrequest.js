@@ -6,6 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import './panelrequest.css';
 import {useNavigate, useLocation} from 'react-router-dom';
 import Axios from 'axios';
+import Footerr from './footerr';
 function Rejected(){
   const [panelData, setPanelData] = useState([]);
   const location = useLocation();  
@@ -60,12 +61,18 @@ function Approved(){
   return (
     <>
     {panelData.map((p) => (
+      <center>
     <Card className='reqbody'>
     <Card.Header><h3>Panel : {p.panel_id}</h3></Card.Header>
     <Card.Body>
+      {location.state.post=='CDC'? <> <Card.Text>Panel Name: {p.panelName}</Card.Text>
+    <img src={`/uploads/${p.symbol}`} width='100px' height='100px' alt='panel symbol' />
+    <br/><br/></>: false}
+   
     <Card.Text>Submitted by: {p.submittedBy}</Card.Text>
     </Card.Body>
   </Card> 
+  </center>
     ))}
     </>
   )
@@ -144,6 +151,7 @@ function PanelRequest() {
       </div>
      
       </Card>
+    
     </>
   )
 }

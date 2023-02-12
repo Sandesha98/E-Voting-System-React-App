@@ -15,6 +15,7 @@ import ViewPanelDetails from './viewpaneldetails';
 import AllPanelDetails from './allPanelDetails';
 import EditScreen from './EditScreen';
 import Report from './report';
+import Footerr from './footerr';
 function App() {
   return (
     <div>
@@ -33,6 +34,7 @@ function App() {
       <Route path='homepage/panel-status/allPanelDetails' element={<AllPanelDetails/>}/>
       <Route path='homepage/panel-status/edit-screen' element={<EditScreen/>}/>
     </Routes>
+    {/* <Footerr/> */}
     </div>
         
   );

@@ -265,14 +265,10 @@ const addData=async(e)=>{
       </Form.Group> */}
       <br/>
       <>
-       {count==(counter-1)?<> <Button variant="primary" onClick={Prev} >
-        Back
-      </Button> &nbsp;&nbsp;
+       {count==(counter-1)?<> 
       <Button variant="primary"  type="Submit" onClick={addData} >
         Submit
-      </Button><br/><br/></>:<><Button variant="primary" onClick={Prev}>
-        Back
-      </Button> &nbsp;&nbsp;
+      </Button><br/><br/></>:<>
       <Button variant="primary" onClick={Next} >
         Next
       </Button>

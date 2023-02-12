@@ -10527,12 +10527,12 @@
     "1999": {
       "events": {},
       "links": {},
-      "address": "0x731abbD91022611efBf5058fc93cB19809648B6f",
-      "transactionHash": "0x615621b9dc4f217c3d15301578807f7d57b295b40c35e81baddec250a379c620"
+      "address": "0x73736928B146786d8664d2C19C504C48CC574c7b",
+      "transactionHash": "0x5881b59b5660a8c073bb4b1cd4b9d6697589212a7f0d0ccb5ec427f7aadbf08a"
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-01-24T05:31:07.757Z",
+  "updatedAt": "2023-02-04T11:52:32.294Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

@@ -179,7 +179,6 @@ class ReportMain extends React.Component {
               <th>Votes</th>
               {/* {this.state.panRes && this.state.panRes.map((val2) => {
                      this.state.approvedPanels && this.state.approvedPanels.map((val) => {
-
                        if(val.panelName === val2.name){
                           console.log("val",val.panelName, "val 2",val2.voteCount);
                       //if(val2.name === "B"){

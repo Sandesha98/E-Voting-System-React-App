@@ -109,7 +109,7 @@ const sendData=async(e)=>{
     {console.log(counter)}
          {userList &&  
          <> 
-        <Paginationn className="pagee" ac={count}/>
+        {/* <Paginationn className="pagee" ac={count}/> */}
         <div className="reg-page" >
     <Form enctype="multipart/form-data">
         <br/>

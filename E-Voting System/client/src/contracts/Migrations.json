@@ -915,12 +915,12 @@
     "1999": {
       "events": {},
       "links": {},
-      "address": "0x0da755DFA66CE83F8bAB827EEca42156bfAEdCB8",
-      "transactionHash": "0xaf327a1ba12836ddce613d98cb123644d16dceef36c79847ae00daa7b9f45a03"
+      "address": "0x953792DC95EF651A1b835EB3Ef5CDC115b4D8dd0",
+      "transactionHash": "0xd9932666413efd471471c8fc4060346c060965c7fca766b103f7c58a6f85d5e3"
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-01-24T05:31:15.338Z",
+  "updatedAt": "2023-02-04T11:53:37.948Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

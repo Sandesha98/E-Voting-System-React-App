@@ -1,15 +1,18 @@
 import './loginscreen.css';
 import vote from './vote.jpg'
 import {Form,Input,Button} from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {useForm} from 'react-hook-form';
 import Axios from 'axios';
 import HomePage from './homepage';
 import NavBarr from './navbar';
+import getWeb3 from './getWeb3';
+import HelloWorld from './contracts/HelloWorld.json';
+
 function LoginScreen(){
     const [form] = Form.useForm();
-
+ const location = useLocation();
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
     const [entry,setEntry] = useState({});
@@ -23,6 +26,10 @@ function LoginScreen(){
    const [post, setPost] = useState('');
    const [generateReport, setGenerateReport] = useState('0');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //   const [accounts, setAccounts] = useState(null);
+  // const [contract, setContract] = useState(null);
+  // const [web3, setWeb3] = useState(null);
+  // const [hasVoted, setHasVoted] = useState(false);
    useEffect(()=>{
      Axios.get(`http://localhost:3001/getCredentials/${entry.cms_id}`).then((res)=>{
       console.log(res.data);
@@ -45,10 +52,46 @@ function LoginScreen(){
         document.getElementById('hey').style.display='inline';
         
       }
-     
-     
       setAdmin(res.data)
     });
+
+//     async function loadWeb3() {
+//     try {
+//       // Get network provider and web3 instance.
+//       const web3 = await getWeb3();
+  
+//       // Use web3 to get the user's accounts.
+//       const accounts = await web3.eth.getAccounts();
+//       console.log(accounts);
+      
+//       // Get the contract instance.
+//       const networkId = await web3.eth.net.getId();
+//       const deployedNetwork = HelloWorld.networks[networkId];
+//       const instance = new web3.eth.Contract(
+//         HelloWorld.abi,
+//         deployedNetwork && deployedNetwork.address,
+//       );
+
+//       console.log(instance);
+//       setWeb3(web3);
+//       setAccounts(accounts);
+//       setContract(instance);
+      
+//     } catch (error) {
+
+//       alert(
+//         `Failed to load web3, accounts, or contract. Check console for details.`,
+//       );
+//       console.error(error);
+//     }
+//   }
+//   loadWeb3();
+//   async function fetchData(){
+//     const response = await contract.methods.userVoted(location.state.cms_id).call();
+//     setHasVoted(response);
+//     console.log("User cms response",response);
+// }
+// fetchData();
 
   },[entry.cms_id]);
   function handlemanage(){
@@ -65,6 +108,7 @@ function LoginScreen(){
       }
 
       const handleUserLogin = () =>{
+        
         navigate('homepage',{state:{sem:sem, cms_id: entry.cms_id}});
         const userData = {
           cms_id: entry.cms_id,
@@ -158,7 +202,7 @@ function LoginScreen(){
           <Form.Item
           shouldUpdate={true}
             name="username"
-            rules={[{ required: true, message: 'Please input your CMS-ID' }]}
+            rules={[{ required: true, message: 'Please Enter valid ID' }]}
           >
             <Input
               name="cms_id"
@@ -171,7 +215,7 @@ function LoginScreen(){
           <Form.Item
           shouldUpdate={true}
             name="password"
-            rules={[{ required: true, message: 'Please input your password' }]}
+            rules={[{ required: true, message: 'Please Enter Password' }]}
           >
             <Input.Password
               name="password"

@@ -71,14 +71,14 @@ app.get("/manageElectionData", (req,res)=>{
         console.log(err);
      });
 });
-app.post("/startRegistration", (req,res)=>{
-    const votingChecked = req.body.votingChecked;
-    console.log(votingChecked);
-    db.query(`UPDATE manageelection set startRegistration = ${votingChecked}`,(err,result)=>{
-        //res.send(result);
-        console.log(err);
-     });
-});
+// app.post("/startRegistration", (req,res)=>{
+//     const votingChecked = req.body.votingChecked;
+//     console.log(votingChecked);
+//     db.query(`UPDATE manageelection set startRegistration = ${votingChecked}`,(err,result)=>{
+//         //res.send(result);
+//         console.log(err);
+//      });
+// });
 
 app.get("/getCredentials/:id",(req,res)=>{    
     const cms = req.params.id;
@@ -116,7 +116,7 @@ app.get("/getApprovedPanels",(req,res)=>{
     })    
 });
 app.get("/getCDCApprovedPanels",(req,res)=>{
-    db.query("Select panel_id, submittedBy from paneldetails where Status='Approved' AND electionYear=YEAR(CURDATE())",(err,result)=>{
+    db.query("Select panel_id, submittedBy, panelName, symbol from paneldetails where Status='Approved' AND electionYear=YEAR(CURDATE())",(err,result)=>{
        res.send(result);
     })    
 });
